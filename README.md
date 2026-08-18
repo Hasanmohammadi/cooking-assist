@@ -1,46 +1,96 @@
-# Cooking Assist (اپ WebView)
+# Cooking Assist
 
-## ساخت APK بدون نیاز به اندروید استودیو (روش GitHub — پیشنهادی)
+دستیار آشپزی مبتنی بر هوش مصنوعی — وب‌اپ React + TypeScript که با Capacitor به یه اپ اندروید تبدیل می‌شه.
 
-اگه اندروید استودیو نداری، نیازی نیست نصبش کنی. از GitHub Actions استفاده کن تا خودش برات APK بسازه:
+## استک فنی
+Vite · React · TypeScript · Capacitor · shadcn/ui · Tailwind CSS · React Router · TanStack Query · Zustand · React Hook Form + Zod · Axios · i18next · Vitest · ESLint + Prettier · Husky
 
-۱. یه اکانت رایگان توی [github.com](https://github.com) بساز (اگه نداری).
-۲. یه ریپازیتوری جدید (Repository) بساز، مثلاً به اسم `cooking-assist`.
-۳. کل محتویات این پوشه (`CookingAssist`) رو توش آپلود کن. ساده‌ترین راه: توی صفحه ریپو روی **Add file > Upload files** بزن و همه فایل‌ها/پوشه‌ها رو بکش و بنداز (drag & drop)، بعد Commit کن.
-۴. برو به تب **Actions** توی همون ریپو. یه Workflow به اسم "Build APK" خودش اجرا می‌شه (چند دقیقه طول می‌کشه).
-۵. وقتی تیک سبز خورد (تموم شد)، روی همون اجرا کلیک کن، پایین صفحه یه بخش به اسم **Artifacts** هست، یه فایل zip به اسم `cooking-assist-apk` اونجاست — دانلودش کن.
-۶. داخل zip یه فایل `app-debug.apk` هست. همون رو روی گوشی اندرویدت منتقل کن و نصبش کن (شاید لازم باشه توی تنظیمات گوشی، نصب از منابع ناشناس رو موقتاً فعال کنی).
+## توسعه‌ی لوکال (روی سیستم خودت)
 
-هر بار که فایل‌ها رو توی گیت‌هاب عوض کنی (مثلاً آدرس سایت رو)، دوباره برو تب Actions و Commit جدید خودش یه APK جدید می‌سازه.
+پیش‌نیاز: [Node.js نسخه ۲۰ به بالا](https://nodejs.org)، [pnpm](https://pnpm.io) و Git.
 
-## روش دوم: اگه اندروید استودیو داشتی
-۱. اندروید استودیو رو باز کن.
-۲. گزینه **Open** رو بزن و پوشه `CookingAssist` رو انتخاب کن.
-۳. صبر کن تا Gradle Sync تموم بشه.
-۴. روی Run بزن تا روی گوشی یا شبیه‌ساز نصب بشه.
+```bash
+npm install -g pnpm   # اگه از قبل نصب نکردی
 
-## تغییر آدرس سایت
-فایل زیر رو باز کن:
-
-```
-app/src/main/res/values/strings.xml
+git clone <آدرس ریپازیتوری خودت>
+cd cooking-assist
+pnpm install
+pnpm dev
 ```
 
-و این خط رو با آدرس دلخواهت عوض کن:
+اپ روی `http://localhost:5173` بالا میاد (نسخه‌ی وب، برای تست سریع UI بدون نیاز به گوشی).
 
-```xml
-<string name="web_url" translatable="false">https://www.google.com</string>
+### دستورهای مفید
+```bash
+pnpm dev       # اجرای لوکال
+pnpm build     # ساخت نسخه‌ی production (خروجی در dist/)
+pnpm test      # اجرای تست‌ها با Vitest
+pnpm lint      # بررسی ESLint
+pnpm format    # فرمت‌کردن با Prettier
 ```
 
-همین! نیازی به تغییر جای دیگه‌ای نیست.
+> بعد از اولین `pnpm install`، یه فایل `pnpm-lock.yaml` ساخته می‌شه — حتماً همون رو هم commit/push کن، چون هم نسخه‌ها رو قفل می‌کنه و هم بعداً می‌شه cache گیت‌هاب اکشن رو باهاش سریع‌تر کرد.
 
-## امکانات
-- دکمه Back گوشی، اول داخل سایت به عقب برمی‌گرده (نه اینکه از اپ خارج بشه)
-- نوار پیشرفت (Progress Bar) هنگام لود صفحه
-- Pull-to-refresh (کشیدن صفحه به پایین برای رفرش)
-- صفحه‌ی «اتصال اینترنت نیست» با دکمه تلاش دوباره، وقتی نت قطعه
+## ساخت APK (بدون نیاز به Android Studio)
 
-## نکته درباره آیکون
-فعلاً یه آیکون ساده و موقت (دایره سفید روی پس‌زمینه نارنجی) گذاشته شده.
-هر وقت لوگوی نهایی رو داشتی، کافیه فایل‌های داخل پوشه‌های `mipmap-*` رو با آیکون خودت جایگزین کنی
-(یا از قسمت File > New > Image Asset توی اندروید استودیو استفاده کنی، که راحت‌تره).
+هر بار که به شاخه‌ی `main` پوش کنی، **GitHub Actions** خودکار:
+1. پروژه رو build می‌کنه
+2. پلتفرم اندروید Capacitor رو می‌سازه
+3. `minSdkVersion` رو ۲۴ (اندروید ۷) و `targetSdkVersion` رو ۳۶ (اندروید ۱۶) تنظیم می‌کنه
+4. یه APK دیباگ می‌سازه
+
+برای دیدن نتیجه: تب **Actions** توی گیت‌هاب → آخرین اجرا → بخش **Artifacts** → دانلود `cooking-assist-apk`.
+
+> ⚠️ این APK **دیباگه، برای تست روی گوشی خودته**. برای انتشار توی Google Play باید یه نسخه‌ی release امضاشده بسازیم (کلید امضا/keystore) — وقتی به اون مرحله رسیدیم بهم بگو تا اضافه‌ش کنم.
+
+### اگه خودت لوکال کار می‌کنی و می‌خوای عوض کنی
+هر تغییری که لوکال دادی رو با `git push` بفرست؛ همون Workflow خودکار دوباره اجرا می‌شه و APK جدید می‌سازه. نیازی به آپلود دستی فایل توی گیت‌هاب نیست (که قبلاً با پوشه‌های نقطه‌دار مثل `.github` مشکل داشتیم) — چون `git push` همه‌چیز رو درست منتقل می‌کنه.
+
+## ساختار پروژه
+
+```
+src/
+  components/
+    ui/          → کامپوننت‌های پایه shadcn (Button, Input, Textarea)
+    chat/        → ChatWindow, MessageBubble, ChatInput
+  pages/         → ChatPage, SettingsPage
+  hooks/         → useChat, useNetworkStatus, useThemeEffect, useBackButton
+  services/      → aiService (چت‌بات), pushNotifications, cameraService
+  store/         → Zustand: settingsStore (تم/زبان/آدرس بک‌اند), chatStore (تاریخچه)
+  i18n/          → فارسی و انگلیسی، locales/fa.json و en.json
+  lib/           → axiosClient, capacitorStorage (ذخیره‌سازی آفلاین)
+```
+
+## وصل کردن هوش مصنوعی واقعی
+
+فایل `src/services/aiService.ts` فعلاً یه پاسخ نمونه (mock) برمی‌گردونه. وقتی بک‌اندت آماده شد:
+1. توی اپ برو تنظیمات (⚙️) و آدرس بک‌اند رو وارد کن، یا
+2. مقدار پیش‌فرض `apiEndpoint` رو توی `src/store/settingsStore.ts` عوض کن
+
+**نکته‌ی امنیتی مهم:** کلید API هوش مصنوعی (OpenAI/Anthropic/...) هرگز نباید داخل کد اپ موبایل باشه — قابل استخراجه. باید یه بک‌اند واسط داشته باشی که کلید اونجا امن بمونه و اپ فقط با اون بک‌اند حرف بزنه.
+
+## طراحی (وقتی رسید)
+
+وقتی طرح نهایی رو فرستادی:
+- رنگ‌ها/توکن‌ها: `src/index.css` (متغیرهای CSS بالای فایل)
+- فونت: همون‌جا `@import` فونت رو عوض کن و `tailwind.config.js` → `fontFamily.sans`
+- آیکون/اسپلش‌اسکرین: با `@capacitor/assets` (که در devDependencies هست) می‌شه خودکار از یه لوگوی ساده همه‌ی سایزها رو ساخت
+
+## قابلیت‌هایی که آماده ولی غیرفعالن (تا وقتی لازمشون بشه)
+
+| قابلیت | وضعیت |
+|---|---|
+| Push Notification | سرویسش آماده‌ست (`services/pushNotifications.ts`) ولی جایی صدا زده نمی‌شه |
+| Camera | سرویسش آماده‌ست (`services/cameraService.ts`)، برای وقتی قابلیت اسکن/عکس غذا اضافه بشه |
+| Deep Link | هنوز تنظیم نشده — نیاز به یه دامنه یا scheme مشخص داره؛ وقتی مشخص شد اضافه‌ش می‌کنم |
+
+## موارد پوشش داده‌شده طبق مشخصات
+
+- ✅ Android 7+ (minSdk 24) تا Android 16 (targetSdk 36)
+- ✅ موبایل و تبلت (بدون محدودیت سایز صفحه)
+- ✅ Portrait و Landscape
+- ✅ دارک مود (خودکار از سیستم + قابل تغییر دستی)
+- ✅ RTL کامل (فارسی پیش‌فرض)
+- ✅ فونت داینامیک (واحدهای rem، پیرو تنظیمات سیستم)
+- ✅ آفلاین برای اطلاعات ذخیره‌شده (تاریخچه‌ی چت با Capacitor Preferences)
+- ❌ Location / Contacts / SMS / Bluetooth — طبق خواسته‌ت اضافه نشدن
