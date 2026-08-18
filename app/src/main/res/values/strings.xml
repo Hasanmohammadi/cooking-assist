@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Cooking Assist</string>
+
+    <!--
+        این آدرس همان صفحه‌ای است که داخل اپلیکیشن باز می‌شود.
+        هر وقت خواستی آدرس را عوض کنی، فقط همین یک خط را ویرایش کن.
+    -->
+    <string name="web_url" translatable="false">https://www.google.com</string>
+</resources>
