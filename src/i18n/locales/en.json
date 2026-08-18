@@ -1,0 +1,31 @@
+{
+  "app": {
+    "name": "Cooking Assist"
+  },
+  "chat": {
+    "title": "Cooking Assist",
+    "placeholder": "What do you want to cook? Ask away...",
+    "send": "Send",
+    "empty": "Ask something, e.g.: What can I cook with chicken and rice?",
+    "offline": "No internet connection. Messages will send once you're back online.",
+    "error": "Something went wrong. Please try again.",
+    "retry": "Retry",
+    "typing": "Typing..."
+  },
+  "settings": {
+    "title": "Settings",
+    "theme": "Theme",
+    "themeLight": "Light",
+    "themeDark": "Dark",
+    "themeSystem": "System",
+    "language": "Language",
+    "apiEndpoint": "AI service endpoint",
+    "apiEndpointHelp": "The backend URL messages are sent to",
+    "save": "Save",
+    "saved": "Saved"
+  },
+  "nav": {
+    "chat": "Chat",
+    "settings": "Settings"
+  }
+}
